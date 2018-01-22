@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "Crypto currency price lookup",
+  "description": "Displays updated price of bitcoin and other crypto currencies via the coindesk api",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon2.png",
+    "default_popup": "popup.html"
+  },
+
+  "icons" : {"64": "icon2.png"},
+  "permissions": [
+    "activeTab",
+    "storage"
+  ]
+}
