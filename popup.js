@@ -19,7 +19,7 @@ for ( i = 0; i < symbols.length; i++)
 coinRequest1.open("GET", ccEndpoint,false);
 coinRequest1.send(null);
 var coinData = JSON.parse(coinRequest1.response).DISPLAY;
-
+var prices = [];
 //here the html display is made from the json response 
 coinDataDisplay = ""
 for(i = 0; i < symbols.length; i++)
@@ -30,11 +30,56 @@ for(i = 0; i < symbols.length; i++)
 	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.HIGHDAY + "</td>";
 	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.LOWDAY + "</td></tr>";
 
+	prices.push(coinData[symbols[i]].USD.PRICE.slice(1,coinData[symbols[i]].USD.PRICE.length));
+
+
 }
+
+
+console.log(prices)
 
 //jquery adds the formatted data to the html display 
 $( coinDataDisplay ).replaceAll( "#replaceWithCoin" );
 
+
+var ctx = document.getElementById("myChart").getContext('2d');
+
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels:  symbols, //["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: '# of Votes',
+            data: prices, // [12, 19, 3, 5, 2],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)'
+                //'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+                //'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true 
+                }
+            }]
+        }
+    }
+});
 
 
  
