@@ -26,17 +26,15 @@ for(i = 0; i < symbols.length; i++)
 {
 
 	coinDataDisplay += "<tr><td>" + symbols[i] + "</td>";
-	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.PRICE + "</td>";
+	//coinDataDisplay += "<td>" + coinData[symbols[i]].USD.PRICE + "</td>";
 	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.HIGHDAY + "</td>";
-	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.LOWDAY + "</td></tr>";
+	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.LOWDAY + "</td>";
+	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.CHANGE24HOUR + "</td></tr>"
 
 	prices.push(coinData[symbols[i]].USD.PRICE.slice(1,coinData[symbols[i]].USD.PRICE.length));
 
 
 }
-
-
-console.log(prices)
 
 //jquery adds the formatted data to the html display 
 $( coinDataDisplay ).replaceAll( "#replaceWithCoin" );
@@ -49,7 +47,7 @@ var myChart = new Chart(ctx, {
     data: {
         labels:  symbols, //["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
         datasets: [{
-            label: '# of Votes',
+            label: 'Current Values',
             data: prices, // [12, 19, 3, 5, 2],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
