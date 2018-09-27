@@ -2,7 +2,7 @@
 // to be added: select specific currencies and display previous days price 
 
 // all the symbols to be displayed are hard codes, later update will have user choidce
-var symbols = ['BTC', 'ETH', 'BCH' , 'LTC','XRP'];
+var symbols = ['BCC', 'ETH', 'BCH' , 'LTC','NEO'];
 var ccEndpoint = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=";
 var coinRequest1 = new XMLHttpRequest();
 var i = 0;
@@ -20,42 +20,40 @@ coinRequest1.open("GET", ccEndpoint,false);
 coinRequest1.send(null);
 var coinData = JSON.parse(coinRequest1.response).DISPLAY;
 var prices = [];
+
 //here the html display is made from the json response 
 coinDataDisplay = ""
 for(i = 0; i < symbols.length; i++)
 {
 
 	coinDataDisplay += "<tr><td>" + symbols[i] + "</td>";
-	//coinDataDisplay += "<td>" + coinData[symbols[i]].USD.PRICE + "</td>";
 	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.HIGHDAY + "</td>";
 	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.LOWDAY + "</td>";
 	coinDataDisplay += "<td>" + coinData[symbols[i]].USD.CHANGE24HOUR + "</td></tr>"
 
-	prices.push(coinData[symbols[i]].USD.PRICE.slice(1,coinData[symbols[i]].USD.PRICE.length));
-
-
+	//here coin prices are saved to be used to bake barchart
+	prices.push(coinData[symbols[i]].USD.PRICE.slice(2,coinData[symbols[i]].USD.PRICE.length));
 }
 
 //jquery adds the formatted data to the html display 
 $( coinDataDisplay ).replaceAll( "#replaceWithCoin" );
 
 
+//creates and sets chart
 var ctx = document.getElementById("myChart").getContext('2d');
-
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels:  symbols, //["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels:  symbols, 
         datasets: [{
-            label: 'Current Values',
-            data: prices, // [12, 19, 3, 5, 2],
+            label: 'Current Price',
+            data: prices, 
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)'
-                //'rgba(255, 159, 64, 0.2)'
             ],
             borderColor: [
                 'rgba(255,99,132,1)',
@@ -63,7 +61,6 @@ var myChart = new Chart(ctx, {
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)'
-                //'rgba(255, 159, 64, 1)'
             ],
             borderWidth: 1
         }]
@@ -72,7 +69,9 @@ var myChart = new Chart(ctx, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true 
+                    beginAtZero:true,
+                    max:1000
+
                 }
             }]
         }
