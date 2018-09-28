@@ -1,2 +1,4 @@
 # Crypto-Price-Extension-
-This is a google chrome extension that displays realtime crypto currency information using the crypto-connect API. More features are coming soon including integration with a users Coinbase wallet!!
+Chrome extension that provides live data of various cryptocurrenices. Current prices are displayed via interactive bar charts, and daily fluctuation data is shown in an easy to read table. 
+
+Made using JQuery, Charts.js, Bootstrap 
